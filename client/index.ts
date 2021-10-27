@@ -1,0 +1,1 @@
+import { dataBaseRT } from "./db";

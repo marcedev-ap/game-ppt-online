@@ -2,7 +2,7 @@ class CustomForm extends HTMLElement {
   shadow: ShadowRoot;
   label: string;
   text: string;
-  switchLabel: string;
+  // switchLabel: string;
   placeholder: string;
   id: string;
   name: string;
@@ -11,7 +11,7 @@ class CustomForm extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
     this.label = this.getAttribute("label");
     this.text = this.getAttribute("text");
-    this.switchLabel = this.getAttribute("switchLabel");
+    // this.switchLabel = this.getAttribute("switchLabel");
     this.placeholder = this.getAttribute("placeholder");
   }
   connectedCallback() {
@@ -41,17 +41,40 @@ class CustomForm extends HTMLElement {
     style.innerHTML = `
     .form{
       width:100%;
-      height:242px;
+      height:235px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:space-between;
     }
     .form__fieldset-container{
-
+      box-sizing: border-box;
+      width:100%;
+      border:none;
+      padding:0px;
+      margin:0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .form__label{}
-    .form__input{}
+    .form__label{
+      display: block;
+      margin-bottom:1px;
+      font-size:45px;
+    }
+    .form__input{
+      box-sizing: border-box;
+      width:319px;
+      height:84px;
+      border: 10px solid #182460;
+      border-radius: 10px;
+      font-size:16px;
+    }
+    .form__input::placeholder{
+      font-size:16px;
+      padding:3px;
+    }
     .form__btn-container{
       width:322px;
       height:87px;

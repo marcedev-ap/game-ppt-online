@@ -76,7 +76,7 @@ app.post("/createRoom", (req, res) => {
               })
               .then(() => {
                 res.json({
-                  roomId: fsId,
+                  fsRoomId: fsId,
                 });
               });
           });
@@ -104,6 +104,11 @@ app.get("/rooms/:roomId", (req, res) => {
       }
     });
 });
+
+// app.post("/room-score", (req, res) => {
+//   const { userId } = req.body;
+//   const { fsRoomId } = req.body;
+// });
 
 app.listen(port, () => {
   console.log("this app currently running on the port", port);

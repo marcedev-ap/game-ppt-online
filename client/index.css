@@ -1,0 +1,30 @@
+:root {
+  --title-color: #009048;
+  --title-letter-color: #91ccaf;
+  --font-color: #000;
+  --btn-bg: #006cfc;
+  --btn-border: #001997;
+  --btn-fontColor: #d8fcfc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Odibee Sans", cursive;
+  background-image: url("./assets/wallpaper.svg");
+}
+
+.root {
+  max-width: 375px;
+  height: 100vh;
+}
+
+@media (min-width: 376px) {
+  .root {
+    max-width: 100%;
+    height: 100vh;
+  }
+}

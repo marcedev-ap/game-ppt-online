@@ -1,6 +1,7 @@
 import { firestore, rtdb } from "./db";
 import * as express from "express";
 import { nanoid } from "nanoid";
+import * as cors from "cors";
 import * as randomstring from "randomstring";
 
 const app = express();
@@ -109,6 +110,12 @@ app.get("/rooms/:roomId", (req, res) => {
 //   const { userId } = req.body;
 //   const { fsRoomId } = req.body;
 // });
+
+app.use(express.static("dist"));
+
+app.get("*", function (req, res) {
+  res.sendFile(__dirname + "/dist/index.html");
+});
 
 app.listen(port, () => {
   console.log("this app currently running on the port", port);

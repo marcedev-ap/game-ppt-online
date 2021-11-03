@@ -1,4 +1,7 @@
-class SingUpPage extends HTMLElement {
+import { Router } from "@vaadin/router";
+import { callbackify } from "util";
+import { state } from "../../state";
+class SignUpPage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {
     super();
@@ -7,7 +10,37 @@ class SingUpPage extends HTMLElement {
   connectedCallback() {
     this.render();
   }
-  listeners() {}
+
+  listeners() {
+    const formEl = this.shadow.querySelector(".customForm");
+    formEl.addEventListener("submitForm", (e: any) => {
+      state.setUserName(e.detail.value);
+      this.connectData();
+    });
+  }
+
+  connectData() {
+    const cs = state.getState();
+    state.setUserId((err) => {
+      if (err) {
+        console.error("There was an error in your username");
+      } else {
+        state.createRoom((err) => {
+          if (err) {
+            console.error("There was an error in your userId");
+          } else {
+            state.accessRoomId((err) => {
+              if (err) {
+                console.error("There was an error in your username");
+              } else {
+                console.log(cs);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
   render() {
     const sectionEl = document.createElement("section");
     sectionEl.className = "singup";
@@ -16,7 +49,7 @@ class SingUpPage extends HTMLElement {
     <div class="signup__container-title">
         <custom-text tag="h1" size="80px">Piedra, Papel, ó Tijera</custom-text>
     </div>
-        <custom-form label="Tu Nombre" id="name" placeholder="Ingrese su nombre" text="Empezar" ></custom-form>
+        <custom-form class="customForm" label="Tu Nombre" id="name" name="name" placeholder="Ingrese su nombre" text="Empezar" ></custom-form>
     <div class="signup__container-hands">
         <hands-el tag="scissors" width="65px" height="125px"></hands-el>
         <hands-el tag="stone" width="65px" height="125px"></hands-el>
@@ -64,4 +97,4 @@ class SingUpPage extends HTMLElement {
     this.listeners();
   }
 }
-window.customElements.define("x-signup-page", SingUpPage);
+window.customElements.define("x-signup-page", SignUpPage);

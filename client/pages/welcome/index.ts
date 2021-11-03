@@ -11,7 +11,7 @@ class WelcomePage extends HTMLElement {
   listeners() {
     const btnNewGame = this.shadow.querySelector(".btn__new-game");
     btnNewGame.addEventListener("clickedButton", () => {
-      Router.go("/singup");
+      Router.go("/signup");
     });
 
     const btnEnterRoom = this.shadow.querySelector(".btn__enter-room");

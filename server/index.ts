@@ -7,6 +7,7 @@ import * as randomstring from "randomstring";
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
+app.use(cors());
 
 const fsUsersCol = firestore.collection("users");
 const fsRoomsCol = firestore.collection("rooms");
@@ -85,8 +86,9 @@ app.post("/createRoom", (req, res) => {
     });
 });
 
-app.get("/rooms/:roomId", (req, res) => {
-  const { roomId } = req.params;
+//Corregir que no me devuelve el rtdbId
+app.get("/rooms/:fsRoomId", (req, res) => {
+  const { fsRoomId } = req.params;
   const { userId } = req.query;
   fsUsersCol
     .doc(userId.toString())
@@ -94,10 +96,11 @@ app.get("/rooms/:roomId", (req, res) => {
     .then((userRef) => {
       if (userRef.exists) {
         fsRoomsCol
-          .doc(roomId)
+          .doc(fsRoomId)
           .get()
           .then((roomRef) => {
             const data = roomRef.data();
+            console.log(data);
             res.json({ rtdbId: data.rtdbRef });
           });
       } else {

@@ -1,7 +1,7 @@
 import { dataBaseRT } from "./db";
 import "./router";
 import "./pages/welcome";
-import "./pages/singup";
+import "./pages/signup";
 import "./pages/share-code";
 import "./pages/access-room";
 import "./pages/access-error";

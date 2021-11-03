@@ -11,6 +11,8 @@ class CustomForm extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
     this.label = this.getAttribute("label");
     this.text = this.getAttribute("text");
+    this.name = this.getAttribute("name");
+    this.id = this.getAttribute("id");
     // this.switchLabel = this.getAttribute("switchLabel");
     this.placeholder = this.getAttribute("placeholder");
   }
@@ -18,12 +20,17 @@ class CustomForm extends HTMLElement {
     this.render();
   }
   listeners() {
-    // this.shadow
-    //   .querySelector(".custom-button")
-    //   .addEventListener("click", (e) => {
-    //     const event = new CustomEvent("clickedButton");
-    //     this.dispatchEvent(event);
-    //   });
+    const inputEl = this.shadow.querySelector(".form__input") as any;
+    this.shadow.querySelector(".form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const target = e.target as any;
+      let value = target.name.value;
+      const event = new CustomEvent("submitForm", {
+        detail: { value: value },
+      });
+      this.dispatchEvent(event);
+      inputEl.value = "";
+    });
   }
   render() {
     const formEl = document.createElement("form");
@@ -34,7 +41,7 @@ class CustomForm extends HTMLElement {
         <input class="form__input" type="text" id="${this.id}" name="${this.name}" placeholder="${this.placeholder}" autofocus>
       </fieldset>
       <div class="form__btn-container">
-        <custom-button class="btn__enter-room">${this.text}</custom-button> 
+        <button class="form__btn">${this.text}</button> 
       </div>
     `;
     const style = document.createElement("style");
@@ -78,6 +85,19 @@ class CustomForm extends HTMLElement {
     .form__btn-container{
       width:322px;
       height:87px;
+    }
+
+    .form__btn{
+      box-sizing:border-box;
+      width:100%;
+      height:100%;
+      color:var(--btn-fontColor);
+      background-color:var(--btn-bg);
+      margin:0 auto;
+      font-family: "Odibee Sans", cursive;
+      font-size:45px;
+      border:10px solid var(--btn-border);
+      border-radius:10px; 
     }
     `;
     this.shadow.appendChild(style);

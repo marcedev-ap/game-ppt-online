@@ -118,7 +118,7 @@ app.get("/rooms/:fsRoomId", (req, res) => {
 
 app.use(express.static("dist"));
 
-app.get("*", function (req, res) {
+app.get("*", (req, res) => {
   res.sendFile(__dirname + "/dist/index.html");
 });
 

@@ -1,6 +1,5 @@
+const API_BASE_URL = "https://ppt-online.herokuapp.com";
 import { dataBaseRT } from "./db";
-
-const API_URL = "https://ppt-online.herokuapp.com";
 
 const state = {
   data: {
@@ -37,7 +36,7 @@ const state = {
         "Excuse Me, could you introcude your surname please? Thanks!"
       );
     } else {
-      fetch(API_URL + "/signup", {
+      fetch(API_BASE_URL + "/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +59,7 @@ const state = {
   createRoom(callback) {
     const cs = this.getState();
     const { userId, userName } = cs;
-    fetch(API_URL + "/createRoom", {
+    fetch(API_BASE_URL + "/createRoom", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +85,7 @@ const state = {
     const cs = this.getState();
     const { fsRoomId } = cs;
     const { userId } = cs;
-    fetch(API_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
+    fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
       .then((res) => res.json())
       .then((data) => {
         cs.rtdbRoomId = data.rtdbId.rtdbRef;

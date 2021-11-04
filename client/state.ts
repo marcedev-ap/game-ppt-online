@@ -1,7 +1,5 @@
 import { dataBaseRT } from "./db";
 
-// const API_URL = process.env.HOST || window.location.origin;
-
 const API_URL = "https://ppt-online.herokuapp.com";
 
 const state = {

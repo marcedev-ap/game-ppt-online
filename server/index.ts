@@ -51,7 +51,7 @@ app.post("/createRoom", (req, res) => {
   const { playerStatus } = req.body;
   const { currentGame } = req.body;
 
-  console.log(userName);
+  console.log("Soy", userName);
   // console.log(currentGame);
 
   //Busca en la collection de users el userId recibido

@@ -32,6 +32,7 @@ class SignUpPage extends HTMLElement {
                 console.error("There was an error in your username");
               } else {
                 state.connectToRoom();
+                const cs = state.getState();
               }
             });
           }

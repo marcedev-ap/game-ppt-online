@@ -1,5 +1,4 @@
 import { Router } from "@vaadin/router";
-import { callbackify } from "util";
 import { state } from "../../state";
 class SignUpPage extends HTMLElement {
   shadow: ShadowRoot;
@@ -20,7 +19,6 @@ class SignUpPage extends HTMLElement {
   }
 
   connectData() {
-    const cs = state.getState();
     state.setUserId((err) => {
       if (err) {
         console.error("There was an error in your username");
@@ -33,7 +31,7 @@ class SignUpPage extends HTMLElement {
               if (err) {
                 console.error("There was an error in your username");
               } else {
-                console.log(cs);
+                state.connectToRoom();
               }
             });
           }
@@ -41,6 +39,7 @@ class SignUpPage extends HTMLElement {
       }
     });
   }
+
   render() {
     const sectionEl = document.createElement("section");
     sectionEl.className = "singup";

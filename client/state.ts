@@ -1,12 +1,15 @@
-import { json } from "stream/consumers";
+import { dataBaseRT } from "./db";
 
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.API_URL || "http://localhost:3000";
+
 const state = {
   data: {
     userName: "",
     userId: "",
     rtdbRoomId: "",
     fsRoomId: "",
+    playerStatus: { playerOne: "", playerTwo: "" },
+    currentGame: { playerOneMove: "", playerTwoMove: "" },
   },
   listeners: [],
   getState() {
@@ -71,6 +74,7 @@ const state = {
       .then((response) => {
         cs.fsRoomId = response.fsRoomId;
         this.setState(cs);
+        callback();
       })
       .catch((err) => {
         console.error("Hubo un problema con la petición FETCH", err);
@@ -82,10 +86,10 @@ const state = {
     const cs = this.getState();
     const { fsRoomId } = cs;
     const { userId } = cs;
-    fetch(API_URL + "/romms/" + fsRoomId + "?userId=" + userId)
+    fetch(API_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
       .then((res) => res.json())
-      .then((response) => {
-        cs.rtdbRoomId = response.rtdbId.rtdbRef;
+      .then((data) => {
+        cs.rtdbRoomId = data.rtdbId.rtdbRef;
         this.setState(cs);
         callback();
       })
@@ -95,9 +99,16 @@ const state = {
       });
   },
 
-  // connectToRoom(){
-
-  // },
+  //SEGUIR ACA!
+  connectToRoom() {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    const rtdbRef = dataBaseRT.ref("/rooms/" + rtdbRoomId);
+    rtdbRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+    });
+  },
 
   subscribe(callback: (any) => { any }) {
     this.listeners.push(callback);

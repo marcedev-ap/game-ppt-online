@@ -86,10 +86,12 @@ app.post("/createRoom", (req, res) => {
     });
 });
 
-//Corregir que no me devuelve el rtdbId
 app.get("/rooms/:fsRoomId", (req, res) => {
   const { fsRoomId } = req.params;
+  console.log(fsRoomId);
   const { userId } = req.query;
+  console.log(userId);
+
   fsUsersCol
     .doc(userId.toString())
     .get()
@@ -100,8 +102,8 @@ app.get("/rooms/:fsRoomId", (req, res) => {
           .get()
           .then((roomRef) => {
             const data = roomRef.data();
-            console.log(data);
-            res.json({ rtdbId: data.rtdbRef });
+            console.log("soy data", data);
+            res.json({ rtdbId: data });
           });
       } else {
         res.status(401).json({ message: "Your ID was not found" });

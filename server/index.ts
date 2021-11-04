@@ -3,6 +3,7 @@ import * as express from "express";
 import { nanoid } from "nanoid";
 import * as cors from "cors";
 import * as randomstring from "randomstring";
+import * as path from "path";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -47,6 +48,11 @@ app.post("/signup", (req, res) => {
 app.post("/createRoom", (req, res) => {
   const { userId } = req.body;
   const { userName } = req.body;
+  const { playerStatus } = req.body;
+  const { currentGame } = req.body;
+
+  console.log(userName);
+  // console.log(currentGame);
 
   //Busca en la collection de users el userId recibido
   fsUsersCol
@@ -66,6 +72,8 @@ app.post("/createRoom", (req, res) => {
           .set({
             ownerId: userId,
             ownerName: userName,
+            playerStatus,
+            currentGame,
           })
           .then(() => {
             //Una vez creada la room en la rtdb y resuelta la promesa. Voy a crear el id corto en firestore
@@ -119,7 +127,7 @@ app.get("/rooms/:fsRoomId", (req, res) => {
 app.use(express.static("dist"));
 
 app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/dist/index.html");
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 app.listen(port, () => {

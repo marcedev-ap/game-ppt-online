@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://ppt-online.herokuapp.com";
+// const API_BASE_URL = "https://ppt-online.herokuapp.com";
+const API_BASE_URL = process.env.API_BASE_URL || "https://localhost:3000";
 import { dataBaseRT } from "./db";
 
 const state = {
@@ -7,8 +8,14 @@ const state = {
     userId: "",
     rtdbRoomId: "",
     fsRoomId: "",
-    playerStatus: { playerOne: "", playerTwo: "" },
-    currentGame: { playerOneMove: "", playerTwoMove: "" },
+    playerStatus: {
+      playerOne: { userName: "", status: "" },
+      playerTwo: { userName: "", status: "" },
+    },
+    currentGame: {
+      playerOne: { userName: "", move: "" },
+      playerTwo: { userName: "", move: "" },
+    },
   },
   listeners: [],
   getState() {
@@ -59,6 +66,17 @@ const state = {
   createRoom(callback) {
     const cs = this.getState();
     const { userId, userName } = cs;
+
+    const playerStatus = {
+      playerOne: { userName: userName, status: "" },
+      playerTwo: { userName: "", status: "" },
+    };
+
+    const currentGame = {
+      playerOne: { userName: userName, move: "" },
+      playerTwo: { userName: "", move: "" },
+    };
+
     fetch(API_BASE_URL + "/createRoom", {
       method: "POST",
       headers: {
@@ -67,6 +85,8 @@ const state = {
       body: JSON.stringify({
         userId,
         userName,
+        playerStatus,
+        currentGame,
       }),
     })
       .then((res) => res.json())
@@ -98,7 +118,7 @@ const state = {
       });
   },
 
-  //SEGUIR ACA!
+  //Se conecta a la rtdb y se queda escuchando posibles cambios.
   connectToRoom() {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
@@ -108,6 +128,12 @@ const state = {
       console.log(data);
     });
   },
+
+  // playerOn() {
+  //   const cs = this.getState();
+  //   const { rtdbRoomId } = cs;
+  //   const rtdbRef = dataBaseRT.ref("/rooms/" + rtdbRoomId);
+  // },
 
   subscribe(callback: (any) => { any }) {
     this.listeners.push(callback);

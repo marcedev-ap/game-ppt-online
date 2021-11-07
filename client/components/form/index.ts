@@ -69,6 +69,7 @@ class CustomForm extends HTMLElement {
       display: block;
       margin-bottom:1px;
       font-size:45px;
+      margin-bottom:5px;
     }
     .form__input{
       box-sizing: border-box;

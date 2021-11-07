@@ -9,12 +9,12 @@ const state = {
     rtdbRoomId: "",
     fsRoomId: "",
     playerStatus: {
-      playerOne: { userName: "", status: "" },
-      playerTwo: { userName: "", status: "" },
+      owner: { userName: "", status: "" },
+      guess: { userName: "", status: "" },
     },
     currentGame: {
-      playerOne: { userName: "", move: "" },
-      playerTwo: { userName: "", move: "" },
+      owner: { userName: "", move: "" },
+      guess: { userName: "", move: "" },
     },
   },
   listeners: [],
@@ -32,6 +32,12 @@ const state = {
   setUserName(name: string) {
     const cs = this.getState();
     cs.userName = name;
+    this.setState(cs);
+  },
+
+  setFsRoomId(fsRoomId: string) {
+    const cs = this.getState();
+    cs.fsRoomId = fsRoomId;
     this.setState(cs);
   },
 
@@ -68,13 +74,13 @@ const state = {
     const { userId, userName } = cs;
 
     const playerStatus = {
-      playerOne: { userName: userName, status: "" },
-      playerTwo: { userName: "", status: "" },
+      owner: { userName: userName, status: "" },
+      guess: { userName: "", status: "" },
     };
 
     const currentGame = {
-      playerOne: { userName: userName, move: "" },
-      playerTwo: { userName: "", move: "" },
+      owner: { userName: userName, move: "" },
+      guess: { userName: "", move: "" },
     };
 
     fetch(API_BASE_URL + "/createRoom", {
@@ -101,14 +107,33 @@ const state = {
       });
   },
 
-  accessRoomId(callback) {
+  // accessRoomId(callback) {
+  //   const cs = this.getState();
+  //   const { fsRoomId } = cs;
+  //   const { userId } = cs;
+  //   fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       cs.rtdbRoomId = data.rtdbId.rtdbRef;
+  //       this.setState(cs);
+  //       callback();
+  //     })
+  //     .catch((err) => {
+  //       console.error("Hubo un problema con la petición FETCH", err);
+  //       callback(true);
+  //     });
+  // },
+
+  guessRoomId(callback) {
     const cs = this.getState();
     const { fsRoomId } = cs;
-    const { userId } = cs;
-    fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
+    console.log("Soy guess");
+    console.log(fsRoomId);
+
+    fetch(API_BASE_URL + "/guess/" + fsRoomId)
       .then((res) => res.json())
       .then((data) => {
-        cs.rtdbRoomId = data.rtdbId.rtdbRef;
+        cs.rtdbRoomId = data.rtdbId;
         this.setState(cs);
         callback();
       })

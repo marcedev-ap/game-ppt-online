@@ -51,9 +51,6 @@ app.post("/createRoom", (req, res) => {
   const { playerStatus } = req.body;
   const { currentGame } = req.body;
 
-  console.log("Soy", userName);
-  // console.log(currentGame);
-
   //Busca en la collection de users el userId recibido
   fsUsersCol
     .doc(userId)
@@ -94,12 +91,22 @@ app.post("/createRoom", (req, res) => {
     });
 });
 
+//Endpoint para invitados
+app.get("/guess/:fsRoomId", (req, res) => {
+  const { fsRoomId } = req.params;
+  fsRoomsCol
+    .doc(fsRoomId)
+    .get()
+    .then((roomRef) => {
+      const data = roomRef.data();
+      res.json({ rtdbId: data.rtdbRef });
+    });
+});
+
+// Endpoint para usuarios validos que crearon una room
 app.get("/rooms/:fsRoomId", (req, res) => {
   const { fsRoomId } = req.params;
-  console.log(fsRoomId);
   const { userId } = req.query;
-  console.log(userId);
-
   fsUsersCol
     .doc(userId.toString())
     .get()
@@ -110,8 +117,7 @@ app.get("/rooms/:fsRoomId", (req, res) => {
           .get()
           .then((roomRef) => {
             const data = roomRef.data();
-            console.log("soy data", data);
-            res.json({ rtdbId: data });
+            res.json({ rtdbId: data.rtdbRef });
           });
       } else {
         res.status(401).json({ message: "Your ID was not found" });

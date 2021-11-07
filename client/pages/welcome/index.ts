@@ -16,7 +16,7 @@ class WelcomePage extends HTMLElement {
 
     const btnEnterRoom = this.shadow.querySelector(".btn__enter-room");
     btnEnterRoom.addEventListener("clickedButton", () => {
-      Router.go("/sharecode");
+      Router.go("/accessroom");
     });
   }
   render() {

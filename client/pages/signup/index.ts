@@ -19,26 +19,37 @@ class SignUpPage extends HTMLElement {
   }
 
   connectData() {
-    state.setUserId((err) => {
-      if (err) {
-        console.error("There was an error in your username");
-      } else {
-        state.createRoom((err) => {
-          if (err) {
-            console.error("There was an error in your userId");
-          } else {
-            state.accessRoomId((err) => {
-              if (err) {
-                console.error("There was an error in your username");
-              } else {
-                state.connectToRoom();
-                const cs = state.getState();
-              }
-            });
-          }
-        });
-      }
-    });
+    const cs = state.getState();
+    if (cs.fsRoomId == "" && cs.rtdbRoomId == "") {
+      state.setUserId((err) => {
+        if (err) {
+          console.error("There was an error in your username");
+        } else {
+          state.createRoom((err) => {
+            if (err) {
+              console.error("There was an error in your userId");
+            } else {
+              state.accessRoomId((err) => {
+                if (err) {
+                  console.error("There was an error in your username");
+                } else {
+                  state.connectToRoom();
+                  Router.go("/sharecode");
+                }
+              });
+            }
+          });
+        }
+      });
+    } else {
+      state.setUserId((err) => {
+        if (err) {
+          console.error("There was an error in your username");
+        } else {
+          Router.go("/gamerules");
+        }
+      });
+    }
   }
 
   render() {
@@ -49,7 +60,7 @@ class SignUpPage extends HTMLElement {
     <div class="signup__container-title">
         <custom-text tag="h1" size="80px">Piedra, Papel, ó Tijera</custom-text>
     </div>
-        <custom-form class="customForm" label="Tu Nombre" id="name" name="name" placeholder="Ingrese su nombre" text="Empezar" ></custom-form>
+        <custom-form class="customForm" label="Ingresa tu nombre" id="name" name="name" placeholder="NOMBRE" text="Empezar" ></custom-form>
     <div class="signup__container-hands">
         <hands-el tag="scissors" width="65px" height="125px"></hands-el>
         <hands-el tag="stone" width="65px" height="125px"></hands-el>

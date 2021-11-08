@@ -125,10 +125,36 @@ app.get("/rooms/:fsRoomId", (req, res) => {
     });
 });
 
-// app.post("/room-score", (req, res) => {
-//   const { userId } = req.body;
-//   const { fsRoomId } = req.body;
-// });
+app.patch("/status/guess-connect", (req, res) => {
+  const { rtdbRoomId } = req.body;
+  const { userName } = req.body;
+  const rtdbRef = rtdb
+    .ref("/rooms/" + rtdbRoomId)
+    .child("/playerStatus")
+    .child("/guess");
+  rtdbRef.update({ status: "ON", userName: userName }, (error) => {
+    if (error) {
+      res.json({ message: "Write Data failed" });
+    } else {
+      res.json({ message: "Data saved successfully!" });
+    }
+  });
+});
+
+app.patch("/status/owner-connect", (req, res) => {
+  const { rtdbRoomId } = req.body;
+  const rtdbRef = rtdb
+    .ref("/rooms/" + rtdbRoomId)
+    .child("/playerStatus")
+    .child("/owner");
+  rtdbRef.update({ status: "ON" }, (error) => {
+    if (error) {
+      res.json({ message: "Write Data failed" });
+    } else {
+      res.json({ message: "Data saved successfully!" });
+    }
+  });
+});
 
 app.use(express.static("dist"));
 

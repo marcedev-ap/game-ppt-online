@@ -1,6 +1,7 @@
 const API_BASE_URL = "https://ppt-online.herokuapp.com";
 // const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
+import { map } from "lodash";
 
 const state = {
   data: {
@@ -114,7 +115,7 @@ const state = {
     fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
       .then((res) => res.json())
       .then((data) => {
-        cs.rtdbRoomId = data.rtdbId.rtdbRef;
+        cs.rtdbRoomId = data.rtdbId;
         this.setState(cs);
         callback();
       })
@@ -127,9 +128,6 @@ const state = {
   guessRoomId(callback) {
     const cs = this.getState();
     const { fsRoomId } = cs;
-    console.log("Soy guess");
-    console.log(fsRoomId);
-
     fetch(API_BASE_URL + "/guess/" + fsRoomId)
       .then((res) => res.json())
       .then((data) => {
@@ -150,15 +148,53 @@ const state = {
     const rtdbRef = dataBaseRT.ref("/rooms/" + rtdbRoomId);
     rtdbRef.on("value", (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+      const cs = this.getState();
+
+      cs.playerStatus.owner.userName = data.playerStatus.owner.userName;
+      cs.playerStatus.owner.status = data.playerStatus.owner.status;
+
+      cs.playerStatus.guess.userName = data.playerStatus.guess.userName;
+      cs.playerStatus.guess.status = data.playerStatus.guess.status;
+
+      cs.currentGame.owner.userName = data.currentGame.owner.userName;
+      cs.currentGame.owner.move = data.currentGame.owner.move;
+
+      cs.currentGame.guess.userName = data.currentGame.guess.userName;
+      cs.currentGame.guess.move = data.currentGame.guess.move;
+
+      this.setState(cs);
     });
   },
 
-  // playerOn() {
-  //   const cs = this.getState();
-  //   const { rtdbRoomId } = cs;
-  //   const rtdbRef = dataBaseRT.ref("/rooms/" + rtdbRoomId);
-  // },
+  ownerOn() {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    fetch(API_BASE_URL + "/status/owner-connect", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rtdbRoomId,
+      }),
+    });
+  },
+
+  guessOn() {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    const { userName } = cs;
+    fetch(API_BASE_URL + "/status/guess-connect", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rtdbRoomId,
+        userName,
+      }),
+    });
+  },
 
   subscribe(callback: (any) => { any }) {
     this.listeners.push(callback);

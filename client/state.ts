@@ -107,22 +107,22 @@ const state = {
       });
   },
 
-  // accessRoomId(callback) {
-  //   const cs = this.getState();
-  //   const { fsRoomId } = cs;
-  //   const { userId } = cs;
-  //   fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       cs.rtdbRoomId = data.rtdbId.rtdbRef;
-  //       this.setState(cs);
-  //       callback();
-  //     })
-  //     .catch((err) => {
-  //       console.error("Hubo un problema con la petición FETCH", err);
-  //       callback(true);
-  //     });
-  // },
+  accessRoomId(callback) {
+    const cs = this.getState();
+    const { fsRoomId } = cs;
+    const { userId } = cs;
+    fetch(API_BASE_URL + "/rooms/" + fsRoomId + "?userId=" + userId)
+      .then((res) => res.json())
+      .then((data) => {
+        cs.rtdbRoomId = data.rtdbId.rtdbRef;
+        this.setState(cs);
+        callback();
+      })
+      .catch((err) => {
+        console.error("Hubo un problema con la petición FETCH", err);
+        callback(true);
+      });
+  },
 
   guessRoomId(callback) {
     const cs = this.getState();

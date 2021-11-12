@@ -1,5 +1,4 @@
 import { Router } from "@vaadin/router";
-import { stat } from "fs";
 import { state } from "../../state";
 class SignUpPage extends HTMLElement {
   shadow: ShadowRoot;
@@ -36,7 +35,7 @@ class SignUpPage extends HTMLElement {
                   console.error("There was an error in your username");
                 } else {
                   state.connectToRoom();
-                  state.ownerOn();
+                  state.ownerStatus("ON");
                   Router.go("/sharecode");
                 }
               });
@@ -49,7 +48,7 @@ class SignUpPage extends HTMLElement {
         if (err) {
           console.error("There was an error in your username");
         } else {
-          state.guessOn();
+          state.guessStatus("ON");
           Router.go("/gamerules");
         }
       });

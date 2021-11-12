@@ -125,14 +125,28 @@ app.get("/rooms/:fsRoomId", (req, res) => {
     });
 });
 
-app.patch("/status/guess-connect", (req, res) => {
-  const { rtdbRoomId } = req.body;
-  const { userName } = req.body;
+app.get("/status/:rtdbRoomId", (req, res) => {
+  const { rtdbRoomId } = req.params;
   const rtdbRef = rtdb
     .ref("/rooms/" + rtdbRoomId)
     .child("/playerStatus")
     .child("/guess");
-  rtdbRef.update({ status: "ON", userName: userName }, (error) => {
+  rtdbRef.get().then((snapshot) => {
+    const data = snapshot.val();
+    res.json({ status: data.status, userName: data.userName });
+  });
+});
+
+app.patch("/status/guess-connect", (req, res) => {
+  const { rtdbRoomId } = req.body;
+  const { userName } = req.body;
+  const { userStatus } = req.body;
+
+  const rtdbRef = rtdb
+    .ref("/rooms/" + rtdbRoomId)
+    .child("/playerStatus")
+    .child("/guess");
+  rtdbRef.update({ status: userStatus, userName: userName }, (error) => {
     if (error) {
       res.json({ message: "Write Data failed" });
     } else {
@@ -143,11 +157,14 @@ app.patch("/status/guess-connect", (req, res) => {
 
 app.patch("/status/owner-connect", (req, res) => {
   const { rtdbRoomId } = req.body;
+  const { userStatus } = req.body;
+  console.log(userStatus);
+
   const rtdbRef = rtdb
     .ref("/rooms/" + rtdbRoomId)
     .child("/playerStatus")
     .child("/owner");
-  rtdbRef.update({ status: "ON" }, (error) => {
+  rtdbRef.update({ status: userStatus }, (error) => {
     if (error) {
       res.json({ message: "Write Data failed" });
     } else {

@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { stat } from "fs";
 import { state } from "../../state";
 
 class AccessRoomPage extends HTMLElement {
@@ -19,13 +20,29 @@ class AccessRoomPage extends HTMLElement {
     });
   }
 
+  // JXR1SV
+
   connectData() {
     state.guessRoomId((err) => {
       if (err) {
         console.error("There was an error in your roomId");
       } else {
-        state.connectToRoom();
-        Router.go("/signup");
+        state.occupancyRoom((err) => {
+          if (err) {
+            console.error("There was an error in your roomId");
+          } else {
+            const cs = state.getState();
+            const guessStatus = cs.playerStatus.guess.status;
+            const guessName = cs.playerStatus.guess.userName;
+            console.log("soy status", guessStatus, guessName);
+            if (guessName !== "" && guessStatus !== "") {
+              Router.go("/acesserror");
+            } else {
+              state.connectToRoom();
+              Router.go("/signup");
+            }
+          }
+        });
       }
     });
   }

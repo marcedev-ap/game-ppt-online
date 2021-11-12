@@ -141,6 +141,25 @@ const state = {
       });
   },
 
+  occupancyRoom(callback) {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    console.log("occupancy", rtdbRoomId);
+
+    fetch(API_BASE_URL + "/status/" + rtdbRoomId)
+      .then((res) => res.json())
+      .then((data) => {
+        cs.playerStatus.guess.status = data.status;
+        cs.playerStatus.guess.userName = data.userName;
+        this.setState(cs);
+        callback();
+      })
+      .catch((err) => {
+        console.error("Hubo un problema con la petición FETCH", err);
+        callback(true);
+      });
+  },
+
   //Se conecta a la rtdb y se queda escuchando posibles cambios.
   connectToRoom() {
     const cs = this.getState();
@@ -166,7 +185,7 @@ const state = {
     });
   },
 
-  ownerOn() {
+  ownerStatus(userStatus) {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
     fetch(API_BASE_URL + "/status/owner-connect", {
@@ -176,11 +195,12 @@ const state = {
       },
       body: JSON.stringify({
         rtdbRoomId,
+        userStatus,
       }),
     });
   },
 
-  guessOn() {
+  guessStatus(userStatus) {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
     const { userName } = cs;
@@ -192,6 +212,7 @@ const state = {
       body: JSON.stringify({
         rtdbRoomId,
         userName,
+        userStatus,
       }),
     });
   },

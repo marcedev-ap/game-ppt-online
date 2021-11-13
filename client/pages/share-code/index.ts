@@ -18,7 +18,9 @@ class ShareCodePage extends HTMLElement {
       const cs = state.getState();
       const guessStatus = cs.playerStatus.guess.status;
       const ownerStatus = cs.playerStatus.owner.status;
-      if (guessStatus !== "" && ownerStatus !== "") {
+      // CAMBIE ESTA LÍNEA
+      // if (guessStatus !== "" && ownerStatus !== "") {
+      if (guessStatus == "ON" && ownerStatus == "ON") {
         Router.go("/gamerules");
         clearTimeout(temp);
       }

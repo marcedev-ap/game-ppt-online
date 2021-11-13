@@ -217,7 +217,7 @@ const state = {
     });
   },
 
-  subscribe(callback: (any) => { any }) {
+  subscribe(callback) {
     this.listeners.push(callback);
   },
 };

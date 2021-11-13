@@ -141,7 +141,6 @@ app.patch("/status/guess-connect", (req, res) => {
   const { rtdbRoomId } = req.body;
   const { userName } = req.body;
   const { userStatus } = req.body;
-
   const rtdbRef = rtdb
     .ref("/rooms/" + rtdbRoomId)
     .child("/playerStatus")
@@ -158,8 +157,6 @@ app.patch("/status/guess-connect", (req, res) => {
 app.patch("/status/owner-connect", (req, res) => {
   const { rtdbRoomId } = req.body;
   const { userStatus } = req.body;
-  console.log(userStatus);
-
   const rtdbRef = rtdb
     .ref("/rooms/" + rtdbRoomId)
     .child("/playerStatus")

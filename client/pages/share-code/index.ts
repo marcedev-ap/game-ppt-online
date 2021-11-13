@@ -1,4 +1,5 @@
 import { state } from "../../state";
+import { Router } from "@vaadin/router";
 class ShareCodePage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {
@@ -8,7 +9,21 @@ class ShareCodePage extends HTMLElement {
   connectedCallback() {
     this.render();
   }
-  listeners() {}
+  subscribe() {
+    const temp = setTimeout(() => {
+      Router.go("/guesserror");
+    }, 30 * 1000);
+
+    state.subscribe(() => {
+      const cs = state.getState();
+      const guessStatus = cs.playerStatus.guess.status;
+      const ownerStatus = cs.playerStatus.owner.status;
+      if (guessStatus !== "" && ownerStatus !== "") {
+        Router.go("/gamerules");
+        clearTimeout(temp);
+      }
+    });
+  }
   render() {
     const cs = state.getState();
     const { fsRoomId } = cs;
@@ -80,7 +95,7 @@ class ShareCodePage extends HTMLElement {
     `;
     this.shadow.appendChild(sectionEl);
     this.shadow.appendChild(style);
-    this.listeners();
+    this.subscribe();
   }
 }
 window.customElements.define("x-sharecode-page", ShareCodePage);

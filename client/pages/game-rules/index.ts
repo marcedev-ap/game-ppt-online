@@ -9,17 +9,17 @@ class RulesPage extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
-    this.render();
+    this.subscribe();
   }
 
   subscribe() {
     state.subscribe(() => {
       const cs = state.getState();
-      const ownerStatus = cs.playerStatus.owner.status;
-      const guessStatus = cs.playerStatus.guess.status;
-      ownerStatus == "READY" && guessStatus === "READY"
-        ? Router.go("/game")
-        : Router.go("/waitroom");
+      const ownerName = cs.playerStatus.owner.userName;
+      const guessName = cs.playerStatus.guess.userName;
+      if (ownerName !== "" && guessName !== "") {
+        this.render();
+      }
     });
   }
 
@@ -32,15 +32,15 @@ class RulesPage extends HTMLElement {
       userName === ownerName
         ? state.ownerStatus("READY")
         : state.guessStatus("READY");
-      this.subscribe();
+      Router.go("/waitroom");
     });
   }
 
   render() {
     const cs = state.getState();
     const { fsRoomId } = cs;
-    const guessName = cs.playerStatus.guess.userName;
     const ownerName = cs.playerStatus.owner.userName;
+    const guessName = cs.playerStatus.guess.userName;
     const sectionEl = document.createElement("section");
     sectionEl.className = "game-rules";
     sectionEl.innerHTML = `

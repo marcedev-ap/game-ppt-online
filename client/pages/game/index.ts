@@ -11,32 +11,20 @@ class GamePage extends HTMLElement {
   }
 
   subscribe() {
-    const cs = state.getState();
-    const ownerName = cs.currentGame.owner.userName;
-    const ownerMove = cs.currentGame.owner.move;
-    const guessName = cs.currentGame.guess.userName;
-    const guessMove = cs.currentGame.guess.move;
-    const { userName } = cs;
-    const containerHands = this.shadow.querySelector(".game__hands-container");
-    const containerRivalHands = this.shadow.querySelector(
-      ".game__guess-container"
-    );
+    const temp = setTimeout(() => {
+      Router.go("/guesserror");
+    }, 40 * 1000);
+    console.log("temp por fuera", temp);
 
     state.subscribe(() => {
-      const temp = setTimeout(() => {
-        Router.go("/guesserror");
-      }, 20 * 1000);
-
+      const cs = state.getState();
+      const ownerMove = cs.currentGame.owner.move;
+      const guessMove = cs.currentGame.guess.move;
       if (ownerMove !== "" && guessMove !== "") {
-        if (userName === ownerName) {
-          state.ownerMove();
-          clearTimeout(temp);
-          Router.go("/play");
-        } else {
-          state.guessMove();
-          clearTimeout(temp);
-          Router.go("/play");
-        }
+        //AGREGAR FUNCIÖN SCORE
+        console.log("temp dentro", temp);
+        clearTimeout(temp);
+        Router.go("/play");
       }
     });
   }
@@ -56,6 +44,7 @@ class GamePage extends HTMLElement {
             (cs.currentGame.owner.move = e.detail.myPlay),
             hand.classList.add("move");
           state.setState(cs);
+          state.ownerMove();
         }
 
         if (userName === guessName) {
@@ -63,6 +52,7 @@ class GamePage extends HTMLElement {
             (cs.currentGame.guess.move = e.detail.myPlay),
             hand.classList.add("move");
           state.setState(cs);
+          state.guessMove();
         }
       });
     }

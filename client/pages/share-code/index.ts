@@ -9,8 +9,9 @@ class ShareCodePage extends HTMLElement {
   connectedCallback() {
     this.render();
   }
+
   subscribe() {
-    const temp = setTimeout(() => {
+    const temp = setInterval(() => {
       Router.go("/guesserror");
     }, 20 * 1000);
 
@@ -19,10 +20,9 @@ class ShareCodePage extends HTMLElement {
       const guessStatus = cs.playerStatus.guess.status;
       const guessUserName = cs.playerStatus.guess.userName;
       const ownerStatus = cs.playerStatus.owner.status;
-
       if (guessStatus == "ON" && guessUserName !== "" && ownerStatus == "ON") {
         Router.go("/gamerules");
-        clearTimeout(temp);
+        clearInterval(temp);
       }
     });
   }

@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://ppt-online.herokuapp.com";
-// const API_BASE_URL = "http://localhost:3000";
+// const API_BASE_URL = "https://ppt-online.herokuapp.com";
+const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
 import { map } from "lodash";
 
@@ -17,6 +17,7 @@ const state = {
       owner: { userName: "", move: "" },
       guess: { userName: "", move: "" },
     },
+    history: [],
   },
   listeners: [],
   getState() {
@@ -239,7 +240,7 @@ const state = {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
     const { userName } = cs;
-    const move = cs.currentGame.owner.move;
+    const move = cs.currentGame.guess.move;
     fetch(API_BASE_URL + "/move/guess", {
       method: "PATCH",
       headers: {
@@ -252,6 +253,31 @@ const state = {
       }),
     });
   },
+
+  //Seguir aca!
+  pushToHistory(currentState) {
+    const myPlay = currentState.currentGame.myPlay;
+    const computerGame = currentState.currentGame.computerGame;
+    currentState.history.push({
+      myPlay: myPlay,
+      computerGame: computerGame,
+    });
+    this.setState(currentState);
+  },
+
+  // whoWins() {
+  //   const cs = this.getState();
+  //   const ownerMove = cs.currentGame.owner.move;
+  //   const guessMove = cs.currentGame.guess.move;
+
+  //   const wontPaper = ownerMove == "paper" && guessMove == "stone";
+  //   const wontStone = ownerMove == "stone" && guessMove == "scissors";
+  //   const wontScissors = ownerMove == "scissors" && guessMove == "paper";
+
+  //   const lostPaper = ownerMove == "paper" && guessMove == "stone";
+  //   const lostStone = ownerMove == "stone" && guessMove == "scissors";
+  //   const lostScissors = ownerMove == "scissors" && guessMove == "paper";
+  // },
 
   subscribe(callback) {
     this.listeners.push(callback);

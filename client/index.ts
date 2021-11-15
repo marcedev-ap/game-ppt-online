@@ -8,6 +8,7 @@ import "./pages/access-error";
 import "./pages/game-rules";
 import "./pages/error-guess-status";
 import "./pages/game";
+import "./pages/game-play";
 import "./pages/wait-room";
 import "./pages/score";
 import "./components/text";

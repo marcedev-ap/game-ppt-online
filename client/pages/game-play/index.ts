@@ -7,10 +7,10 @@ class PlayPage extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
-    this.subscribe();
+    this.checkView();
   }
 
-  subscribe() {
+  checkView() {
     const cs = state.getState();
     const ownerName = cs.currentGame.owner.userName;
     const ownerMove = cs.currentGame.owner.move;
@@ -18,18 +18,16 @@ class PlayPage extends HTMLElement {
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
 
-    state.subscribe(() => {
-      if (ownerMove !== "" && guessMove !== "") {
-        if (userName === ownerName) {
-          this.render(ownerMove, guessMove);
-        } else {
-          this.render(guessMove, ownerMove);
-        }
-      }
-    });
+    if (userName === ownerName) {
+      this.render(ownerMove, guessMove);
+    }
+
+    if (userName === guessName) {
+      this.render(guessMove, ownerMove);
+    }
   }
 
-  render(localMove, remoteMove) {
+  render(localMove: string, remoteMove: string) {
     const gamePage = document.createElement("section");
     gamePage.className = "game";
     gamePage.innerHTML = `
@@ -64,35 +62,18 @@ class PlayPage extends HTMLElement {
       position:relative;
     }
 
-    .game__container--justify{
-      justify-content:space-around;
-    }
-  
-    .game__countdown-container{
-      margin-top:20px;
-    }
-
     .game__hands-container{
       width:375px;
       height:200px;
-      display:flex;
-      align-items:center;
-      justify-content:space-around;
+      // display:flex;
+      // align-items:center;
+      // justify-content:space-around;
       position:absolute;
       bottom:0px;
     }
 
-    .opacity-hands{
-      opacity:0.7;
-    }
-
-    .move{
-      transform:translateY(-30px) scaleY(1.3);
-      opacity:1;
-    }
-
     .animation{
-      transform: translateY(-50px) scaleY(1.5);
+      transform: translateY(-40px) scaleY(1.5) scaleX(1.5);
       position:absolute;
       bottom:0px;
       left:150px; 
@@ -105,13 +86,9 @@ class PlayPage extends HTMLElement {
     }
 
     .guess-hand{
-      transform:rotateX(180deg) scaleY(1.5) translateY(-30px);
+      transform:rotateX(180deg) scaleY(1.5) translateY(-40px) scaleX(1.5);
       position:absolute;
       left:150px; 
-    }
-
-    .game__container-return-title{
-      max-width:300px;
     }
     `;
 

@@ -1,13 +1,13 @@
 import { state } from "../../state";
 import { Router } from "@vaadin/router";
-class GamePage extends HTMLElement {
+class PlayPage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
-    this.render();
+    this.subscribe();
   }
 
   subscribe() {
@@ -17,70 +17,28 @@ class GamePage extends HTMLElement {
     const guessName = cs.currentGame.guess.userName;
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
-    const containerHands = this.shadow.querySelector(".game__hands-container");
-    const containerRivalHands = this.shadow.querySelector(
-      ".game__guess-container"
-    );
 
     state.subscribe(() => {
-      const temp = setTimeout(() => {
-        Router.go("/guesserror");
-      }, 20 * 1000);
-
       if (ownerMove !== "" && guessMove !== "") {
         if (userName === ownerName) {
-          state.ownerMove();
-          clearTimeout(temp);
-          Router.go("/play");
+          this.render(ownerMove, guessMove);
         } else {
-          state.guessMove();
-          clearTimeout(temp);
-          Router.go("/play");
+          this.render(guessMove, ownerMove);
         }
       }
     });
   }
 
-  listeners() {
-    const cs = state.getState();
-    const ownerName = cs.playerStatus.owner.userName;
-    const guessName = cs.playerStatus.guess.userName;
-    const { userName } = cs;
-    const containerHands = this.shadow.querySelector(".game__hands-container");
-    const handsEls = containerHands.querySelectorAll("hands-el");
-
-    for (const hand of handsEls) {
-      hand.addEventListener("change", (e: any) => {
-        if (userName === ownerName) {
-          (cs.currentGame.owner.userName = ownerName),
-            (cs.currentGame.owner.move = e.detail.myPlay),
-            hand.classList.add("move");
-          state.setState(cs);
-        }
-
-        if (userName === guessName) {
-          (cs.currentGame.guess.userName = guessName),
-            (cs.currentGame.guess.move = e.detail.myPlay),
-            hand.classList.add("move");
-          state.setState(cs);
-        }
-      });
-    }
-  }
-
-  render() {
+  render(localMove, remoteMove) {
     const gamePage = document.createElement("section");
     gamePage.className = "game";
     gamePage.innerHTML = `
     <div class="game__container">
-      <div class="game__guess-container"></div>
-      <div class="game__countdown-container">
-        <custom-countdown count="3"></custom-countdown>
+      <div class="game__guess-container">
+      <hands-el class="guess-hand" tag="${remoteMove}" width="90px" height="200px"></hands-el>
       </div>
       <div class="game__hands-container">
-        <hands-el class="opacity-hands" tag="scissors" width="90px" height="200px"></hands-el>
-        <hands-el class="opacity-hands" tag="stone" width="90px" height="200px"></hands-el>
-        <hands-el class="opacity-hands" tag="paper" width="90px" height="200px"></hands-el>
+      <hands-el class="animation" tag="${localMove}" width="90px" height="200px"></hands-el>
       </div>
     </div>
     `;
@@ -159,8 +117,6 @@ class GamePage extends HTMLElement {
 
     this.shadow.appendChild(gamePage);
     this.shadow.appendChild(style);
-    this.listeners();
-    this.subscribe();
   }
 }
-window.customElements.define("x-game-page", GamePage);
+window.customElements.define("x-play-page", PlayPage);

@@ -217,6 +217,42 @@ const state = {
     });
   },
 
+  ownerMove() {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    const { userName } = cs;
+    const move = cs.currentGame.owner.move;
+    fetch(API_BASE_URL + "/move/owner", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rtdbRoomId,
+        userName,
+        move,
+      }),
+    });
+  },
+
+  guessMove() {
+    const cs = this.getState();
+    const { rtdbRoomId } = cs;
+    const { userName } = cs;
+    const move = cs.currentGame.owner.move;
+    fetch(API_BASE_URL + "/move/guess", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rtdbRoomId,
+        userName,
+        move,
+      }),
+    });
+  },
+
   subscribe(callback) {
     this.listeners.push(callback);
   },

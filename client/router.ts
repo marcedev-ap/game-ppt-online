@@ -13,4 +13,5 @@ router.setRoutes([
   { path: "/guesserror", component: "x-guesserror-page" },
   { path: "/waitroom", component: "x-waitroom-page" },
   { path: "/game", component: "x-game-page" },
+  { path: "/play", component: "x-play-page" },
 ]);

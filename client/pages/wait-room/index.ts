@@ -29,6 +29,10 @@ class WaitRoomPage extends HTMLElement {
     const ownerName = cs.playerStatus.owner.userName;
     const guessName = cs.playerStatus.guess.userName;
 
+    // CORREGIR ESTO
+    //Cuando el owner juega y no lo hace el guess, en la pantalla del owner aparece que esta esperando al
+    //mismo owner
+
     if (ownerStatus !== "READY") {
       messageEl.innerHTML = `
       <custom-text tag="h3" size="45px">Esperando a que ${ownerName} presione ¡Jugar!...</custom-text>

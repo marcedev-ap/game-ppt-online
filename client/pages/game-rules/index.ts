@@ -9,18 +9,7 @@ class RulesPage extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
-    this.subscribe();
-  }
-
-  subscribe() {
-    state.subscribe(() => {
-      const cs = state.getState();
-      const ownerName = cs.playerStatus.owner.userName;
-      const guessName = cs.playerStatus.guess.userName;
-      if (ownerName !== "" && guessName !== "") {
-        this.render();
-      }
-    });
+    this.render();
   }
 
   listeners() {

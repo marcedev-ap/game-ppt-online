@@ -170,6 +170,40 @@ app.patch("/status/owner-connect", (req, res) => {
   });
 });
 
+app.patch("/move/owner", (req, res) => {
+  const { rtdbRoomId } = req.body;
+  const { userName } = req.body;
+  const { move } = req.body;
+  const rtdbRef = rtdb
+    .ref("/rooms/" + rtdbRoomId)
+    .child("/currentGame")
+    .child("/owner");
+  rtdbRef.update({ userName, move }, (error) => {
+    if (error) {
+      res.json({ message: "Write Data failed" });
+    } else {
+      res.json({ message: "Data saved successfully!" });
+    }
+  });
+});
+
+app.patch("/move/guess", (req, res) => {
+  const { rtdbRoomId } = req.body;
+  const { userName } = req.body;
+  const { move } = req.body;
+  const rtdbRef = rtdb
+    .ref("/rooms/" + rtdbRoomId)
+    .child("/currentGame")
+    .child("/guess");
+  rtdbRef.update({ userName, move }, (error) => {
+    if (error) {
+      res.json({ message: "Write Data failed" });
+    } else {
+      res.json({ message: "Data saved successfully!" });
+    }
+  });
+});
+
 app.use(express.static("dist"));
 
 app.get("*", (req, res) => {

@@ -12,20 +12,21 @@ class ShareCodePage extends HTMLElement {
   subscribe() {
     const temp = setTimeout(() => {
       Router.go("/guesserror");
-    }, 30 * 1000);
+    }, 20 * 1000);
 
     state.subscribe(() => {
       const cs = state.getState();
       const guessStatus = cs.playerStatus.guess.status;
+      const guessUserName = cs.playerStatus.guess.userName;
       const ownerStatus = cs.playerStatus.owner.status;
-      // CAMBIE ESTA LÍNEA
-      // if (guessStatus !== "" && ownerStatus !== "") {
-      if (guessStatus == "ON" && ownerStatus == "ON") {
+
+      if (guessStatus == "ON" && guessUserName !== "" && ownerStatus == "ON") {
         Router.go("/gamerules");
         clearTimeout(temp);
       }
     });
   }
+
   render() {
     const cs = state.getState();
     const { fsRoomId } = cs;

@@ -49,10 +49,22 @@ class SignUpPage extends HTMLElement {
           console.error("There was an error in your username");
         } else {
           state.guessStatus("ON");
-          Router.go("/gamerules");
+          this.subscribe();
         }
       });
     }
+  }
+
+  subscribe() {
+    state.subscribe(() => {
+      const cs = state.getState();
+      const guessStatus = cs.playerStatus.guess.status;
+      const ownerUserName = cs.playerStatus.owner.userName;
+      const ownerStatus = cs.playerStatus.owner.status;
+      if (guessStatus == "ON" && ownerUserName !== "" && ownerStatus == "ON") {
+        Router.go("/gamerules");
+      }
+    });
   }
 
   render() {

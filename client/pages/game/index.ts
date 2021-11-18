@@ -13,7 +13,7 @@ class GamePage extends HTMLElement {
   subscribe() {
     const temp = setTimeout(() => {
       Router.go("/guesserror");
-    }, 40 * 1000);
+    }, 20 * 1000);
     console.log("temp por fuera", temp);
 
     state.subscribe(() => {
@@ -21,8 +21,6 @@ class GamePage extends HTMLElement {
       const ownerMove = cs.currentGame.owner.move;
       const guessMove = cs.currentGame.guess.move;
       if (ownerMove !== "" && guessMove !== "") {
-        //AGREGAR FUNCIÖN SCORE
-        console.log("temp dentro", temp);
         clearTimeout(temp);
         Router.go("/play");
       }

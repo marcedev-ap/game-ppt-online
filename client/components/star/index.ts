@@ -1,6 +1,6 @@
-const win = require("url:../../../src/assets/starWin.svg");
-const lose = require("url:../../../src/assets/starLose.svg");
-const tie = require("url:../../../src/assets/starTie.svg");
+const win = require("url:../../../client/assets/starWin.svg");
+const lose = require("url:../../../client/assets/starLose.svg");
+const tie = require("url:../../../client/assets/starTie.svg");
 
 class StarComp extends HTMLElement {
   shadow: ShadowRoot;

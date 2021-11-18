@@ -1,5 +1,5 @@
-// const API_BASE_URL = "https://ppt-online.herokuapp.com";
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://ppt-online.herokuapp.com";
+// const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
 import { map } from "lodash";
 
@@ -18,6 +18,10 @@ const state = {
       guess: { userName: "", move: "" },
     },
     history: [],
+    score: {
+      owner: 0,
+      guess: 0,
+    },
   },
   listeners: [],
   getState() {
@@ -254,30 +258,57 @@ const state = {
     });
   },
 
-  //Seguir aca!
-  pushToHistory(currentState) {
-    const myPlay = currentState.currentGame.myPlay;
-    const computerGame = currentState.currentGame.computerGame;
-    currentState.history.push({
-      myPlay: myPlay,
-      computerGame: computerGame,
+  pushToHistory(owner, guess) {
+    const cs = this.getState();
+    cs.history.push({
+      owner,
+      guess,
     });
-    this.setState(currentState);
   },
 
-  // whoWins() {
-  //   const cs = this.getState();
-  //   const ownerMove = cs.currentGame.owner.move;
-  //   const guessMove = cs.currentGame.guess.move;
+  whoWins(ownerMove: string, guessMove: string) {
+    const iWontPaper = ownerMove == "paper" && guessMove == "stone";
+    const iWontStone = ownerMove == "stone" && guessMove == "scissors";
+    const iWontScissors = ownerMove == "scissors" && guessMove == "paper";
+    const iWont = [iWontPaper, iWontStone, iWontScissors].includes(true);
 
-  //   const wontPaper = ownerMove == "paper" && guessMove == "stone";
-  //   const wontStone = ownerMove == "stone" && guessMove == "scissors";
-  //   const wontScissors = ownerMove == "scissors" && guessMove == "paper";
+    const iLostPaper = ownerMove == "paper" && guessMove == "stone";
+    const iLostStone = ownerMove == "stone" && guessMove == "scissors";
+    const iLostScissors = ownerMove == "scissors" && guessMove == "paper";
+    const iLost = [iLostPaper, iLostStone, iLostScissors].includes(true);
 
-  //   const lostPaper = ownerMove == "paper" && guessMove == "stone";
-  //   const lostStone = ownerMove == "stone" && guessMove == "scissors";
-  //   const lostScissors = ownerMove == "scissors" && guessMove == "paper";
-  // },
+    if (iWont == true) {
+      return "Ganaste";
+    } else if (iLost == true) {
+      return "Perdiste";
+    } else {
+      return "Empate";
+    }
+  },
+
+  calcScore() {
+    const cs = state.getState();
+    const { history } = cs;
+    let scoreOwner = 0;
+    let scoreGuess = 0;
+    history.forEach((e) => {
+      const result = state.whoWins(e.owner, e.guess);
+      if (result == "Ganaste") {
+        scoreOwner += 1;
+        console.log("SCORE OWNER", scoreOwner);
+
+        cs.score.owner = scoreOwner;
+        console.log("STATE SCORE OWNER", cs.score.owner);
+      }
+      if (result == "Perdiste") {
+        scoreGuess += 1;
+        console.log("SCORE guess", scoreGuess);
+        cs.score.guess = scoreGuess;
+
+        console.log("STATE SCORE guess", cs.score.guess);
+      }
+    });
+  },
 
   subscribe(callback) {
     this.listeners.push(callback);

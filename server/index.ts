@@ -204,6 +204,10 @@ app.patch("/move/guess", (req, res) => {
   });
 });
 
+app.patch("/push-history", (req, res) => {});
+
+app.get("/get-history", (req, res) => {});
+
 app.use(express.static("dist"));
 
 app.get("*", (req, res) => {

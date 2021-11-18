@@ -1,5 +1,6 @@
 import { state } from "../../state";
 import { Router } from "@vaadin/router";
+import { stat } from "fs";
 class PlayPage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {
@@ -18,6 +19,8 @@ class PlayPage extends HTMLElement {
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
 
+    state.pushToHistory(ownerMove, guessMove);
+
     if (userName === ownerName) {
       this.render(ownerMove, guessMove);
     }
@@ -25,6 +28,11 @@ class PlayPage extends HTMLElement {
     if (userName === guessName) {
       this.render(guessMove, ownerMove);
     }
+
+    const temp = setInterval(() => {
+      Router.go("/result");
+      clearTimeout(temp);
+    }, 5 * 1000);
   }
 
   render(localMove: string, remoteMove: string) {

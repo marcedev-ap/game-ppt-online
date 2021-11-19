@@ -1,4 +1,5 @@
 import { state } from "../../state";
+import { Router } from "@vaadin/router";
 
 class ResultPage extends HTMLElement {
   shadow: ShadowRoot;
@@ -11,8 +12,6 @@ class ResultPage extends HTMLElement {
   }
 
   checkView() {
-    console.log("ESTOY EN RESULTS!!!");
-
     const cs = state.getState();
     const { userName } = cs;
     const ownerName = cs.currentGame.owner.userName;
@@ -20,9 +19,6 @@ class ResultPage extends HTMLElement {
     const guessName = cs.currentGame.guess.userName;
     const guessMove = cs.currentGame.guess.move;
     const result = state.whoWins(ownerMove, guessMove);
-
-    console.log("Soy el resultado", result);
-
     state.calcScore();
 
     if (userName === ownerName) {
@@ -38,7 +34,42 @@ class ResultPage extends HTMLElement {
     }
   }
 
-  listeners() {}
+  subscribe() {
+    state.subscribe(() => {
+      const cs = state.getState();
+      const ownerStatus = cs.playerStatus.owner.status;
+      const guessStatus = cs.playerStatus.guess.status;
+
+      if (ownerStatus == "AGAIN" && guessStatus == "AGAIN") {
+        Router.go("/welcome");
+      }
+    });
+  }
+
+  listeners() {
+    const btnEl = this.shadow.querySelector(".results__btn");
+    btnEl.addEventListener("clickedButton", () => {
+      const cs = state.getState();
+      const { userName } = cs;
+      const ownerName = cs.playerStatus.owner.userName;
+      cs.currentGame.owner.move = "";
+      cs.currentGame.guess.move = "";
+      state.setState(cs);
+
+      state.ownerMove();
+      state.guessMove();
+
+      if (userName === ownerName) {
+        console.log("result btn owner");
+        state.ownerStatus("AGAIN");
+      }
+
+      if (userName !== ownerName) {
+        console.log("result btn guess");
+        state.guessStatus("AGAIN");
+      }
+    });
+  }
 
   selectBackGround(result) {
     let background = "";
@@ -52,7 +83,6 @@ class ResultPage extends HTMLElement {
 
   render(result) {
     const background = this.selectBackGround(result);
-
     const cs = state.getState();
     const ownerName = cs.currentGame.owner.userName;
     const guessName = cs.currentGame.guess.userName;
@@ -76,7 +106,7 @@ class ResultPage extends HTMLElement {
             </div>
         </div>
         <div class="results__container-btn">
-            <custom-button class="button">Volver a jugar</custom-button>
+            <custom-button class="results__btn">Volver a jugar</custom-button>
         </div>
       </div>
       `;
@@ -121,6 +151,7 @@ class ResultPage extends HTMLElement {
     this.shadow.appendChild(resultsPage);
     this.shadow.appendChild(style);
     this.listeners();
+    this.subscribe();
   }
 }
 window.customElements.define("x-result-page", ResultPage);

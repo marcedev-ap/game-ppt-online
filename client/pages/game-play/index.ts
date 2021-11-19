@@ -1,6 +1,5 @@
 import { state } from "../../state";
 import { Router } from "@vaadin/router";
-import { stat } from "fs";
 class PlayPage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {

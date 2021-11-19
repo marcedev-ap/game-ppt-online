@@ -14,7 +14,6 @@ class GamePage extends HTMLElement {
     const temp = setTimeout(() => {
       Router.go("/guesserror");
     }, 20 * 1000);
-    console.log("temp por fuera", temp);
 
     state.subscribe(() => {
       const cs = state.getState();

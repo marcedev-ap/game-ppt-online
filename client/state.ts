@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://ppt-online.herokuapp.com";
-// const API_BASE_URL = "http://localhost:3000";
+// const API_BASE_URL = "https://ppt-online.herokuapp.com";
+const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
 import { map } from "lodash";
 
@@ -27,6 +27,7 @@ const state = {
   getState() {
     return this.data;
   },
+
   setState(newState) {
     this.data = newState;
     for (const cb of this.listeners) {
@@ -272,9 +273,9 @@ const state = {
     const iWontScissors = ownerMove == "scissors" && guessMove == "paper";
     const iWont = [iWontPaper, iWontStone, iWontScissors].includes(true);
 
-    const iLostPaper = ownerMove == "paper" && guessMove == "stone";
-    const iLostStone = ownerMove == "stone" && guessMove == "scissors";
-    const iLostScissors = ownerMove == "scissors" && guessMove == "paper";
+    const iLostPaper = ownerMove == "stone" && guessMove == "paper";
+    const iLostStone = ownerMove == "scissors" && guessMove == "stone";
+    const iLostScissors = ownerMove == "paper" && guessMove == "scissors";
     const iLost = [iLostPaper, iLostStone, iLostScissors].includes(true);
 
     if (iWont == true) {

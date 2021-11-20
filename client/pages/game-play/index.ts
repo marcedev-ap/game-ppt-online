@@ -22,10 +22,12 @@ class PlayPage extends HTMLElement {
 
     if (userName === ownerName) {
       this.render(ownerMove, guessMove);
+      state.ownerStatus("AGAIN");
     }
 
     if (userName === guessName) {
       this.render(guessMove, ownerMove);
+      state.guessStatus("AGAIN");
     }
 
     const temp = setInterval(() => {

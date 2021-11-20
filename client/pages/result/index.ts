@@ -38,10 +38,16 @@ class ResultPage extends HTMLElement {
     state.subscribe(() => {
       const cs = state.getState();
       const ownerStatus = cs.playerStatus.owner.status;
+      const ownerMove = cs.currentGame.owner.move;
       const guessStatus = cs.playerStatus.guess.status;
-
-      if (ownerStatus == "AGAIN" && guessStatus == "AGAIN") {
-        Router.go("/welcome");
+      const guessMove = cs.currentGame.guess.move;
+      if (
+        ownerStatus == "AGAIN" &&
+        guessStatus == "AGAIN" &&
+        ownerMove == "" &&
+        guessMove == ""
+      ) {
+        Router.go("/gamerules");
       }
     });
   }
@@ -52,21 +58,16 @@ class ResultPage extends HTMLElement {
       const cs = state.getState();
       const { userName } = cs;
       const ownerName = cs.playerStatus.owner.userName;
-      cs.currentGame.owner.move = "";
-      cs.currentGame.guess.move = "";
-      state.setState(cs);
-
-      state.ownerMove();
-      state.guessMove();
-
-      if (userName === ownerName) {
-        console.log("result btn owner");
-        state.ownerStatus("AGAIN");
+      const guessName = cs.playerStatus.guess.userName;
+      if (userName == ownerName) {
+        cs.currentGame.owner.move = "";
+        state.setState(cs);
+        state.ownerMove();
       }
 
-      if (userName !== ownerName) {
-        console.log("result btn guess");
-        state.guessStatus("AGAIN");
+      if (userName == guessName) {
+        cs.currentGame.guess.move = "";
+        state.guessMove();
       }
     });
   }

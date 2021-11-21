@@ -1,5 +1,5 @@
-const API_BASE_URL = "https://ppt-online.herokuapp.com";
-// const API_BASE_URL = "http://localhost:3000";
+// const API_BASE_URL = "https://ppt-online.herokuapp.com";
+const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
 import { map } from "lodash";
 
@@ -9,6 +9,7 @@ const state = {
     userId: "",
     rtdbRoomId: "",
     fsRoomId: "",
+    ownerRoom: "",
     playerStatus: {
       owner: { userName: "", status: "" },
       guess: { userName: "", status: "" },
@@ -163,13 +164,13 @@ const state = {
   occupancyRoom(callback) {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
-    console.log("occupancy", rtdbRoomId);
-
     fetch(API_BASE_URL + "/status/" + rtdbRoomId)
       .then((res) => res.json())
       .then((data) => {
-        cs.playerStatus.guess.status = data.status;
-        cs.playerStatus.guess.userName = data.userName;
+        cs.playerStatus.guess.status = data.guess.status;
+        cs.playerStatus.guess.userName = data.guess.userName;
+        cs.playerStatus.owner.status = data.owner.status;
+        cs.playerStatus.owner.userName = data.owner.userName;
         this.setState(cs);
         callback();
       })
@@ -200,6 +201,7 @@ const state = {
       cs.currentGame.guess.userName = data.currentGame.guess.userName;
       cs.currentGame.guess.move = data.currentGame.guess.move;
 
+      cs.ownerRoom = data.ownerName;
       this.setState(cs);
     });
   },
@@ -207,6 +209,7 @@ const state = {
   ownerStatus(userStatus) {
     const cs = this.getState();
     const { rtdbRoomId } = cs;
+    const { userName } = cs;
     fetch(API_BASE_URL + "/status/owner-connect", {
       method: "PATCH",
       headers: {
@@ -214,6 +217,7 @@ const state = {
       },
       body: JSON.stringify({
         rtdbRoomId,
+        userName,
         userStatus,
       }),
     });

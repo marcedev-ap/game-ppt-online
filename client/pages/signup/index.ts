@@ -8,6 +8,7 @@ class SignUpPage extends HTMLElement {
   }
   connectedCallback() {
     this.render();
+    this.subscribe();
   }
 
   listeners() {
@@ -48,8 +49,14 @@ class SignUpPage extends HTMLElement {
         if (err) {
           console.error("There was an error in your username");
         } else {
-          state.guessStatus("ON");
-          this.subscribe();
+          const cs = state.getState();
+          const { userName } = cs;
+          const { ownerRoom } = cs;
+          if (userName == ownerRoom) {
+            state.ownerStatus("ON");
+          } else {
+            state.guessStatus("ON");
+          }
         }
       });
     }
@@ -59,9 +66,9 @@ class SignUpPage extends HTMLElement {
     state.subscribe(() => {
       const cs = state.getState();
       const guessStatus = cs.playerStatus.guess.status;
-      const ownerUserName = cs.playerStatus.owner.userName;
       const ownerStatus = cs.playerStatus.owner.status;
-      if (guessStatus == "ON" && ownerUserName !== "" && ownerStatus == "ON") {
+      // if (guessStatus == "ON" && ownerUserName !== "" && ownerStatus == "ON") {
+      if (guessStatus == "ON" && ownerStatus == "ON") {
         Router.go("/gamerules");
       }
     });

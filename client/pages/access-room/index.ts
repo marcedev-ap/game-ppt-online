@@ -14,8 +14,21 @@ class AccessRoomPage extends HTMLElement {
   listeners() {
     const formEl = this.shadow.querySelector(".customForm");
     formEl.addEventListener("submitForm", (e: any) => {
-      state.setFsRoomId(e.detail.value);
-      this.connectData();
+      const value = e.detail.value;
+      const cs = state.getState();
+      const { fsRoomId } = cs;
+      //Si no tengo el fsRoomId en el localStorage, entonces buscalo y sincronizate.
+      //Si lo tengo, solo sincronizate
+      if (fsRoomId !== value) {
+        console.log(fsRoomId);
+
+        state.setFsRoomId(value);
+        this.connectData();
+      } else {
+        console.log("ELSE", fsRoomId);
+        state.connectToRoom();
+        Router.go("/signup");
+      }
     });
   }
 
@@ -31,7 +44,14 @@ class AccessRoomPage extends HTMLElement {
             const cs = state.getState();
             const guessStatus = cs.playerStatus.guess.status;
             const guessName = cs.playerStatus.guess.userName;
-            if (guessName !== "" && guessStatus !== "") {
+            const ownerStatus = cs.playerStatus.owner.status;
+            const ownerName = cs.playerStatus.owner.userName;
+            if (
+              guessName !== "" &&
+              guessStatus !== "" &&
+              ownerName !== "" &&
+              ownerStatus !== ""
+            ) {
               Router.go("/acesserror");
             } else {
               state.connectToRoom();

@@ -125,15 +125,12 @@ app.get("/rooms/:fsRoomId", (req, res) => {
     });
 });
 
+//Devuelvo el estado de la sala entero
 app.get("/status/:rtdbRoomId", (req, res) => {
   const { rtdbRoomId } = req.params;
-  const rtdbRef = rtdb
-    .ref("/rooms/" + rtdbRoomId)
-    .child("/playerStatus")
-    .child("/guess");
+  const rtdbRef = rtdb.ref("/rooms/" + rtdbRoomId).child("/playerStatus");
   rtdbRef.get().then((snapshot) => {
-    const data = snapshot.val();
-    res.json({ status: data.status, userName: data.userName });
+    res.send(snapshot.val());
   });
 });
 

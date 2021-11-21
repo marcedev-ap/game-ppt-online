@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { state } from "../../state";
 class WelcomePage extends HTMLElement {
   shadow: ShadowRoot;
   constructor() {
@@ -6,6 +7,7 @@ class WelcomePage extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
+    state.getData();
     this.render();
   }
   listeners() {

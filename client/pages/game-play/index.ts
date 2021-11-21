@@ -18,17 +18,26 @@ class PlayPage extends HTMLElement {
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
 
-    state.pushToHistory(ownerMove, guessMove);
+    const historyObject = {
+      ownerName,
+      ownerMove,
+      guessName,
+      guessMove,
+    };
+
+    state.pushToHistory(historyObject);
 
     if (userName === ownerName) {
       this.render(ownerMove, guessMove);
-      state.ownerStatus("AGAIN");
+      state.ownerStatus("RESET");
     }
 
     if (userName === guessName) {
       this.render(guessMove, ownerMove);
-      state.guessStatus("AGAIN");
+      state.guessStatus("RESET");
     }
+
+    state.saveHistory();
 
     const temp = setInterval(() => {
       Router.go("/result");

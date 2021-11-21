@@ -17,9 +17,16 @@ class GamePage extends HTMLElement {
 
     state.subscribe(() => {
       const cs = state.getState();
+      const ownerStatus = cs.playerStatus.owner.status;
+      const guessStatus = cs.playerStatus.guess.status;
       const ownerMove = cs.currentGame.owner.move;
       const guessMove = cs.currentGame.guess.move;
-      if (ownerMove !== "" && guessMove !== "") {
+      if (
+        ownerMove !== "" &&
+        guessMove !== "" &&
+        ownerStatus == "READY" &&
+        guessStatus == "READY"
+      ) {
         clearTimeout(temp);
         Router.go("/play");
       }

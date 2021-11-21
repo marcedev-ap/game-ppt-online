@@ -42,8 +42,8 @@ class ResultPage extends HTMLElement {
       const guessStatus = cs.playerStatus.guess.status;
       const guessMove = cs.currentGame.guess.move;
       if (
-        ownerStatus == "AGAIN" &&
-        guessStatus == "AGAIN" &&
+        ownerStatus == "RESET" &&
+        guessStatus == "RESET" &&
         ownerMove == "" &&
         guessMove == ""
       ) {
@@ -53,6 +53,23 @@ class ResultPage extends HTMLElement {
   }
 
   listeners() {
+    // document.addEventListener("visibilitychange", function () {
+    //   if (document.visibilityState === "hidden") {
+    //     const cs = state.getState();
+    //     const { userName } = cs;
+    //     const ownerName = cs.playerStatus.owner.userName;
+    //     const guessName = cs.playerStatus.guess.userName;
+
+    //     if (userName == ownerName) {
+    //       state.ownerStatus("");
+    //     }
+
+    //     if (userName == guessName) {
+    //       state.guessStatus("");
+    //     }
+    //   }
+    // });
+
     const btnEl = this.shadow.querySelector(".results__btn");
     btnEl.addEventListener("clickedButton", () => {
       const cs = state.getState();
@@ -67,6 +84,7 @@ class ResultPage extends HTMLElement {
 
       if (userName == guessName) {
         cs.currentGame.guess.move = "";
+        state.setState(cs);
         state.guessMove();
       }
     });

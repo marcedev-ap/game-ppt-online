@@ -1,5 +1,5 @@
-// const API_BASE_URL = "https://ppt-online.herokuapp.com";
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://ppt-online.herokuapp.com";
+// const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
 import { map } from "lodash";
 
@@ -24,6 +24,18 @@ const state = {
     },
   },
   listeners: [],
+
+  getData() {
+    const localData = localStorage.getItem("localData");
+    const localDataParse = JSON.parse(localData);
+    if (localDataParse == null) {
+      const cs = this.getState();
+      this.setState(cs);
+    } else {
+      this.setState(localDataParse);
+    }
+  },
+
   getState() {
     return this.data;
   },
@@ -33,6 +45,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
+    localStorage.setItem("localData", JSON.stringify(newState));
     console.log("State", this.data);
   },
 
@@ -259,11 +272,24 @@ const state = {
     });
   },
 
-  pushToHistory(owner, guess) {
+  pushToHistory(historyObject) {
     const cs = this.getState();
-    cs.history.push({
-      owner,
-      guess,
+    cs.history.push(historyObject);
+  },
+
+  saveHistory() {
+    const cs = this.getState();
+    const { fsRoomId } = cs;
+    const { history } = cs;
+    fetch(API_BASE_URL + "/push-history", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fsRoomId,
+        history,
+      }),
     });
   },
 
@@ -290,25 +316,21 @@ const state = {
   calcScore() {
     const cs = state.getState();
     const { history } = cs;
+    console.log("History en el score", history);
     let scoreOwner = 0;
     let scoreGuess = 0;
     history.forEach((e) => {
-      const result = state.whoWins(e.owner, e.guess);
+      const result = state.whoWins(e.ownerMove, e.guessMove);
       if (result == "Ganaste") {
         scoreOwner += 1;
-        console.log("SCORE OWNER", scoreOwner);
-
         cs.score.owner = scoreOwner;
-        console.log("STATE SCORE OWNER", cs.score.owner);
       }
       if (result == "Perdiste") {
         scoreGuess += 1;
-        console.log("SCORE guess", scoreGuess);
         cs.score.guess = scoreGuess;
-
-        console.log("STATE SCORE guess", cs.score.guess);
       }
     });
+    state.setState(cs);
   },
 
   subscribe(callback) {

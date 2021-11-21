@@ -204,7 +204,24 @@ app.patch("/move/guess", (req, res) => {
   });
 });
 
-app.patch("/push-history", (req, res) => {});
+app.patch("/push-history", (req, res) => {
+  const { fsRoomId } = req.body;
+  const { history } = req.body;
+  const refRoom = fsRoomsCol.doc(fsRoomId);
+  refRoom.get().then((docRef) => {
+    if (!docRef.exists) {
+      res.status(404).json({ message: "Document not found" });
+    } else {
+      refRoom
+        .update({
+          history,
+        })
+        .then(() => {
+          res.json({ message: "Your data was saved successfully" });
+        });
+    }
+  });
+});
 
 app.get("/get-history", (req, res) => {});
 

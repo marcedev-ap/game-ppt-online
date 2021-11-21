@@ -1,4 +1,3 @@
-import { dataBaseRT } from "./db";
 import "./router";
 import "./pages/welcome";
 import "./pages/signup";

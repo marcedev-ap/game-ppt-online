@@ -60,6 +60,7 @@ class ResultPage extends HTMLElement {
       const { userName } = cs;
       const ownerName = cs.playerStatus.owner.userName;
       const guessName = cs.playerStatus.guess.userName;
+
       if (userName == ownerName) {
         cs.currentGame.owner.move = "";
         state.setState(cs);
@@ -156,27 +157,27 @@ class ResultPage extends HTMLElement {
     this.listeners();
     this.subscribe();
 
-    window.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden") {
-        const cs = state.getState();
-        const ownerName = cs.playerStatus.owner.userName;
-        const guessName = cs.playerStatus.guess.userName;
-        const { userName } = cs;
-        if (userName == ownerName) {
-          state.ownerStatus("");
-          cs.currentGame.owner.move = "";
-          state.setState(cs);
-          state.ownerMove();
-        }
-        if (userName == guessName) {
-          state.guessStatus("");
-          cs.currentGame.guess.move = "";
-          state.setState(cs);
-          state.guessMove();
-          state.ownerMove();
-        }
-      }
-    });
+    // window.addEventListener("visibilitychange", () => {
+    //   if (document.visibilityState === "hidden") {
+    //     const cs = state.getState();
+    //     const ownerName = cs.playerStatus.owner.userName;
+    //     const guessName = cs.playerStatus.guess.userName;
+    //     const { userName } = cs;
+    //     if (userName == ownerName) {
+    //       state.ownerStatus("");
+    //       cs.currentGame.owner.move = "";
+    //       state.setState(cs);
+    //       state.ownerMove();
+    //     }
+    //     if (userName == guessName) {
+    //       state.guessStatus("");
+    //       cs.currentGame.guess.move = "";
+    //       state.setState(cs);
+    //       state.guessMove();
+    //       state.ownerMove();
+    //     }
+    //   }
+    // });
   }
 }
 window.customElements.define("x-result-page", ResultPage);

@@ -29,15 +29,17 @@ class RulesPage extends HTMLElement {
     const cs = state.getState();
     const { fsRoomId } = cs;
     const ownerName = cs.playerStatus.owner.userName;
+    const ownerScore = cs.score.owner;
     const guessName = cs.playerStatus.guess.userName;
+    const guessScore = cs.score.guess;
     const sectionEl = document.createElement("section");
     sectionEl.className = "game-rules";
     sectionEl.innerHTML = `
   <div class="game-rules__container">
     <div class="game-rules__header-container">
       <div class="game-rules__players-container">
-        <custom-text tag="h3" size="24px">${ownerName}</custom-text>
-        <custom-text tag="h3" size="24px">${guessName}</custom-text>
+        <custom-text tag="h3" size="24px">${ownerName}: ${ownerScore}</custom-text>
+        <custom-text tag="h3" size="24px">${guessName}: ${guessScore}</custom-text>
       </div> 
       <div class="game-rules__room-container">
         <custom-text tag="h3" size="30px">Sala</custom-text>

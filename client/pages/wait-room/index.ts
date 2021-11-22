@@ -48,15 +48,17 @@ class WaitRoomPage extends HTMLElement {
     const cs = state.getState();
     const { fsRoomId } = cs;
     const ownerName = cs.playerStatus.owner.userName;
+    const ownerScore = cs.score.owner;
     const guessName = cs.playerStatus.guess.userName;
+    const guessScore = cs.score.guess;
     const sectionEl = document.createElement("section");
     sectionEl.className = "wait-room";
     sectionEl.innerHTML = `
   <div class="wait-room__container">
     <div class="wait-room__header-container">
       <div class="wait-room__players-container">
-        <custom-text tag="h3" size="24px">${ownerName}</custom-text>
-        <custom-text tag="h3" size="24px">${guessName}</custom-text>
+        <custom-text tag="h3" size="24px">${ownerName}: ${ownerScore}</custom-text>
+        <custom-text tag="h3" size="24px">${guessName}: ${guessScore}</custom-text>
       </div> 
       <div class="wait-room__room-container">
         <custom-text tag="h3" size="30px">Sala</custom-text>

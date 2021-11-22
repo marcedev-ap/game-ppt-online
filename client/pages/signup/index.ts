@@ -9,6 +9,7 @@ class SignUpPage extends HTMLElement {
   connectedCallback() {
     this.render();
     this.subscribe();
+    state.calcScore();
   }
 
   listeners() {

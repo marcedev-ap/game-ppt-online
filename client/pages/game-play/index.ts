@@ -18,14 +18,15 @@ class PlayPage extends HTMLElement {
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
 
-    const historyObject = {
-      ownerName,
-      ownerMove,
-      guessName,
-      guessMove,
-    };
+    // const historyObject = {
+    //   ownerName,
+    //   ownerMove,
+    //   guessName,
+    //   guessMove,
+    // };
 
-    state.pushToHistory(historyObject);
+    // state.pushToHistory(historyObject);
+    state.pushToHistory();
 
     if (userName === ownerName) {
       this.render(ownerMove, guessMove);

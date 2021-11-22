@@ -1,7 +1,6 @@
-// const API_BASE_URL = "https://ppt-online.herokuapp.com";
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "https://ppt-online.herokuapp.com";
+// const API_BASE_URL = "http://localhost:3000";
 import { dataBaseRT } from "./db";
-import { map } from "lodash";
 
 const state = {
   data: {
@@ -25,17 +24,6 @@ const state = {
     },
   },
   listeners: [],
-
-  getData() {
-    const localData = localStorage.getItem("localData");
-    const localDataParse = JSON.parse(localData);
-    if (localDataParse == null) {
-      const cs = this.getState();
-      this.setState(cs);
-    } else {
-      this.setState(localDataParse);
-    }
-  },
 
   getState() {
     return this.data;
@@ -136,6 +124,8 @@ const state = {
       .then((res) => res.json())
       .then((data) => {
         cs.rtdbRoomId = data.rtdbId;
+        cs.history = data.history;
+        console.log("ACCESS ROOM ID", cs.history);
         this.setState(cs);
         callback();
       })
@@ -152,6 +142,7 @@ const state = {
       .then((res) => res.json())
       .then((data) => {
         cs.rtdbRoomId = data.rtdbId;
+        cs.history = data.history;
         this.setState(cs);
         callback();
       })
@@ -276,8 +267,14 @@ const state = {
     });
   },
 
-  pushToHistory(historyObject) {
+  pushToHistory() {
     const cs = this.getState();
+    const historyObject = {
+      ownerName: cs.currentGame.owner.userName,
+      ownerMove: cs.currentGame.owner.move,
+      guessName: cs.currentGame.guess.userName,
+      guessMove: cs.currentGame.guess.move,
+    };
     cs.history.push(historyObject);
   },
 
@@ -324,6 +321,8 @@ const state = {
     let scoreOwner = 0;
     let scoreGuess = 0;
     history.forEach((e) => {
+      console.log(e.ownerMove, e.ownerName);
+      console.log(e.guessMove, e.guessName);
       const result = state.whoWins(e.ownerMove, e.guessMove);
       if (result == "Ganaste") {
         scoreOwner += 1;

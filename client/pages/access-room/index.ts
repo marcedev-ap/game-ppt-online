@@ -20,8 +20,6 @@ class AccessRoomPage extends HTMLElement {
       //Si no tengo el fsRoomId en el localStorage, entonces buscalo y sincronizate.
       //Si lo tengo, solo sincronizate
       if (fsRoomId !== value) {
-        console.log(fsRoomId);
-
         state.setFsRoomId(value);
         this.connectData();
       } else {

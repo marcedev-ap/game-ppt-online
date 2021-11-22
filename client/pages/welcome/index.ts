@@ -7,7 +7,6 @@ class WelcomePage extends HTMLElement {
     this.shadow = this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
-    state.getData();
     this.render();
   }
   listeners() {

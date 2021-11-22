@@ -80,6 +80,7 @@ app.post("/createRoom", (req, res) => {
             fsRef
               .set({
                 rtdbRef: rtdbRef.key,
+                history: [],
               })
               .then(() => {
                 res.json({
@@ -99,7 +100,7 @@ app.get("/guess/:fsRoomId", (req, res) => {
     .get()
     .then((roomRef) => {
       const data = roomRef.data();
-      res.json({ rtdbId: data.rtdbRef });
+      res.json({ rtdbId: data.rtdbRef, history: data.history });
     });
 });
 
@@ -117,7 +118,11 @@ app.get("/rooms/:fsRoomId", (req, res) => {
           .get()
           .then((roomRef) => {
             const data = roomRef.data();
-            res.json({ rtdbId: data.rtdbRef });
+            console.log("SERVER", data.history);
+            res.json({
+              rtdbId: data.rtdbRef,
+              history: data.history,
+            });
           });
       } else {
         res.status(401).json({ message: "Your ID was not found" });

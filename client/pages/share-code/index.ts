@@ -69,7 +69,7 @@ class ShareCodePage extends HTMLElement {
       .share-code__container{
         width:100%;
         height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
 
     .share-code__header-container{

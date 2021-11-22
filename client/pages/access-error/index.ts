@@ -56,19 +56,23 @@ class AccessErrorPage extends HTMLElement {
     @media(min-width:376px){
       .access-error__container{
         width:100%;
-        height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
-
+    
     .access-error__title-container{
       width:284px;
       height:280px;
       padding-top:20px;
     }
-
+    
     .access-error__text-container{
       height: 100px;
     }
+
+    @media(min-width:376px){
+     .access-error__text-container{
+      width: 300px;
+    }}
     
     .access-error__btn-container{
         width:322px;

@@ -93,8 +93,7 @@ class WaitRoomPage extends HTMLElement {
     @media(min-width:376px){
       .wait-room__container{
         width:100%;
-        height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
 
     .wait-room__header-container{
@@ -104,6 +103,11 @@ class WaitRoomPage extends HTMLElement {
       align-items:center;
       justify-content:space-between;
     }
+
+    @media(min-width:376px){
+      .wait-room__header-container{
+        width:375px;
+      }}
 
     .wait-room__room-container{
       display: flex;

@@ -50,7 +50,7 @@ class AccessRoomPage extends HTMLElement {
               ownerName !== "" &&
               ownerStatus !== ""
             ) {
-              Router.go("/acesserror");
+              Router.go("/accesserror");
             } else {
               state.connectToRoom();
               Router.go("/signup");
@@ -94,7 +94,7 @@ class AccessRoomPage extends HTMLElement {
       .access-room__container{
         width:100%;
         height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
 
     .access-room__container-title{

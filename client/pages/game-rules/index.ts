@@ -78,10 +78,9 @@ class RulesPage extends HTMLElement {
     @media(min-width:376px){
       .game-rules__container{
         width:100%;
-        height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
-
+    
     .game-rules__header-container{
       width:100%;
       padding-top:20px;
@@ -89,6 +88,11 @@ class RulesPage extends HTMLElement {
       align-items:center;
       justify-content:space-between;
     }
+    
+    @media(min-width:376px){
+      .game-rules__header-container{
+        width:375px;
+      }}
 
     .game-rules__room-container{
       display: flex;
@@ -110,6 +114,11 @@ class RulesPage extends HTMLElement {
       display: flex;
       justify-content: space-around;
     }
+
+    @media(min-width:376px){
+      .game-rules__text-container{
+        width: 355px;
+      }}
 
     .game-rules__container-btn{
       width:322px;

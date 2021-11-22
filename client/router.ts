@@ -9,7 +9,7 @@ router.setRoutes([
   { path: "/sharecode", component: "x-sharecode-page" },
   { path: "/accessroom", component: "x-accessroom-page" },
   { path: "/gamerules", component: "x-rules-page" },
-  { path: "/acesserror", component: "x-accesserror-page" },
+  { path: "/accesserror", component: "x-accesserror-page" },
   { path: "/guesserror", component: "x-guesserror-page" },
   { path: "/waitroom", component: "x-waitroom-page" },
   { path: "/game", component: "x-game-page" },

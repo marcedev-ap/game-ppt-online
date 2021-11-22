@@ -52,11 +52,12 @@ class GuessErrorPage extends HTMLElement {
         justify-content:space-between;
     }
 
+    
     @media(min-width:376px){
       .guess-status-error__container{
         width:100%;
         height:100vh;
-        padding:40px 26px 0px 26px;
+        padding:0px;
     }}
 
     .guess-status-error__title-container{
@@ -64,10 +65,16 @@ class GuessErrorPage extends HTMLElement {
       height:280px;
       padding-top:20px;
     }
-
+    
     .guess-status-error__text-container{
       height: 150px;
     }
+
+    @media(min-width:376px){
+      .guess-status-error__text-container{
+        width: 300px;
+      }
+  }
     
     .guess-status-error__btn-container{
         width:322px;| 

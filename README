@@ -1,0 +1,15 @@
+Desafío del módulo N°6 de la carrera fullstack de apx.school.
+
+El desafío consistía relizar el juego piedra, papel y tijera desarrollando el front-end, back-end y utilizando
+la realtime data base y data base no relacional de firebase.
+Todo ello deployado en Heroku para así poder jugar en línea.
+
+Técnologías utilizadas: TypeScript, ExpressJs, Firebase.
+
+El front-end fue desarrollado mediante Web Components, Pages, State Manager para la interacción con el back-end y un Router para el manejo de las rutas/pages
+
+El back-end fue desarrollado mediante los principios restfull siendo este el que permite la interacción entre el front y la DB.
+
+Deploy Heroku:https://ppt-online.herokuapp.com/
+
+Documentación Postman: https://documenter.getpostman.com/view/17432860/UVJYJeB2

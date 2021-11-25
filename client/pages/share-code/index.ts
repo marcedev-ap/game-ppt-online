@@ -13,7 +13,7 @@ class ShareCodePage extends HTMLElement {
   subscribe() {
     const temp = setInterval(() => {
       Router.go("/guesserror");
-    }, 20 * 1000);
+    }, 30 * 1000);
 
     state.subscribe(() => {
       const cs = state.getState();

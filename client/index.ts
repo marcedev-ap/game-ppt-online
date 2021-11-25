@@ -6,6 +6,7 @@ import "./pages/access-room";
 import "./pages/access-error";
 import "./pages/game-rules";
 import "./pages/error-guess-status";
+import "./pages/error-game";
 import "./pages/game";
 import "./pages/game-play";
 import "./pages/wait-room";

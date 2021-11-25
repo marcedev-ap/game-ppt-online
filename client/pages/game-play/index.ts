@@ -18,14 +18,6 @@ class PlayPage extends HTMLElement {
     const guessMove = cs.currentGame.guess.move;
     const { userName } = cs;
 
-    // const historyObject = {
-    //   ownerName,
-    //   ownerMove,
-    //   guessName,
-    //   guessMove,
-    // };
-
-    // state.pushToHistory(historyObject);
     state.pushToHistory();
 
     if (userName === ownerName) {
@@ -43,7 +35,7 @@ class PlayPage extends HTMLElement {
     const temp = setInterval(() => {
       Router.go("/result");
       clearTimeout(temp);
-    }, 5 * 1000);
+    }, 4 * 1000);
   }
 
   render(localMove: string, remoteMove: string) {

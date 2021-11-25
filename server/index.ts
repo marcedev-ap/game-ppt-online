@@ -118,7 +118,6 @@ app.get("/rooms/:fsRoomId", (req, res) => {
           .get()
           .then((roomRef) => {
             const data = roomRef.data();
-            console.log("SERVER", data.history);
             res.json({
               rtdbId: data.rtdbRef,
               history: data.history,

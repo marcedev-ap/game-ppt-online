@@ -10,16 +10,16 @@ El front-end fue desarrollado mediante Web Components, Pages, State Manager para
 
 El back-end fue desarrollado mediante los principios restfull siendo este el que permite la interacción entre el front y la DB.
 
-**Deploy Heroku:https://ppt-online.herokuapp.com/**
+Deploy Heroku:https://ppt-online.herokuapp.com/
 
-**Documentación Postman: https://documenter.getpostman.com/view/17432860/UVJYJeB2**
+Documentación Postman: https://documenter.getpostman.com/view/17432860/UVJYJeB2
 
-**_MODO DE JUEGO:_**
+MODO DE JUEGO:
 
-_"Nuevo juego" Te permite crear una sala y compartir un código de identificación de la room para jugar con un amigo (guarda este código), si pasado 30 segundos tu amigo no se conecto, el juego te va a avisar y te va a pedir que vuelvas al menú de inicio._
+"Nuevo juego" Te permite crear una sala y compartir un código de identificación de la room para jugar con un amigo (guarda este código), si pasado 30 segundos tu amigo no se conecto, el juego te va a avisar y te va a pedir que vuelvas al menú de inicio.
 
-_Podes reutilizar la room que ya creaste y compartir el código con otro amigo que si este listo y tenga ganas de jugar..._
+Podes reutilizar la room que ya creaste y compartir el código con otro amigo que si este listo y tenga ganas de jugar...
 
-_Para volver a ingresar a la room ya creada, debes ingresar a traves de "ingresar a una sala". Una vez allí, pones el código de room que guardaste y compartiste, tu nombre de usuario y arranca nuevamente el proceso de esperar a que se conecte tu amigo para jugar (él tambien deberá ingresar mediante "ingresar a una sala")._
+Para volver a ingresar a la room ya creada, debes ingresar a traves de "ingresar a una sala". Una vez allí, pones el código de room que guardaste y compartiste, tu nombre de usuario y arranca nuevamente el proceso de esperar a que se conecte tu amigo para jugar (él tambien deberá ingresar mediante "ingresar a una sala").
 
-_Una vez que ambos hayan ingresado a la room, van a encontrar un botón que les pide que confirmen que estan listos para jugar. Una vez que ambos hayan confirmado, aparecera un contador y las tres opciones (piedra, papel o tijera) para que elijan, una vez terminado el juego y obtenido el resultado podrán seguir jugado o desconectarse para que otro pueda volver a reutilizar la room (Con cerrar el browser es suficiente)_
+Una vez que ambos hayan ingresado a la room, van a encontrar un botón que les pide que confirmen que estan listos para jugar. Una vez que ambos hayan confirmado, aparecera un contador y las tres opciones (piedra, papel o tijera) para que elijan, una vez terminado el juego y obtenido el resultado podrán seguir jugado o desconectarse para que otro pueda volver a reutilizar la room (Con cerrar el browser es suficiente)

@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 import * as cors from "cors";
 import * as randomstring from "randomstring";
 import * as path from "path";
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;

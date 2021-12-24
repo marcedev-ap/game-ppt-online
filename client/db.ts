@@ -1,10 +1,10 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey: "E2vfv8Ml9nqVurcgNwTzYZd14Ds9ARLx3UqusxNV",
-  authDomain: "game-ppt-online.firebaseapp.com",
-  databaseURL: "https://game-ppt-online-default-rtdb.firebaseio.com",
-  projectId: "game-ppt-online",
+  apiKey: process.env.DATABASE_API_KEY,
+  authDomain: process.env.DATABASE_AUTHDOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.DATABASE_PROJECT_ID,
 };
 
 firebase.initializeApp(config);

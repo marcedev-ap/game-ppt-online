@@ -119,7 +119,7 @@ class ResultPage extends HTMLElement {
         .results__container{
             width:100%;
             height:100vh;
-            padding:35px 20px;
+            padding-top:20px;
             background-color: ${background};
             display:flex;
             flex-direction:column;

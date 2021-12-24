@@ -1,5 +1,4 @@
 import firebase from "firebase";
-require("dotenv").config();
 
 const config = {
   apiKey: "E2vfv8Ml9nqVurcgNwTzYZd14Ds9ARLx3UqusxNV",

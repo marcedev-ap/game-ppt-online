@@ -15,10 +15,14 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_ADMIN_CLIENT_X509_CERT_URL,
 };
 
-console.log(serviceAccount);
+const cuenta = JSON.stringify(serviceAccount);
+
+const cuentaParseada = JSON.parse(cuenta);
+
+console.log(cuentaParseada);
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount as any),
+  credential: admin.credential.cert(cuentaParseada),
   databaseURL: "https://game-ppt-online-default-rtdb.firebaseio.com",
 });
 

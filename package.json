@@ -8,7 +8,8 @@
     "build:front": "parcel build ./client/index.html",
     "dev:api": "nodemon --watch ./server/index.ts --ext ts --exec ts-node ./server/index.ts",
     "build:api": "tsc ./server/index.ts",
-    "build": "npm run build:front && npm run build:api",
+    "log:config": "node ./db/service-account.js",
+    "build": "npm run build:front && npm run build:api && npm run log:config",
     "start": "node ./server/index.js"
   },
   "dependencies": {
